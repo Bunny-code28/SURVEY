@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">Survey Analysis</h1>
+        
+        {% for topic, questions in analysis_data.items() %}
+            <h2>{{ topic.capitalize() }}</h2>
+            <div class="charts-grid">
+                {% for q_num, answers in questions.items() %}
+                    <div class="chart-container">
+                        <canvas id="{{ topic }}_{{ q_num }}"></canvas>
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                {% for q_num, answers in questions.items() %}
+                    var ctx = document.getElementById('{{ topic }}_{{ q_num }}').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: {{ answers.keys() | list | tojson }},
+                            datasets: [{
+                                data: {{ answers.values() | list }},
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.8)',
+                                    'rgba(54, 162, 235, 0.8)',
+                                    'rgba(255, 206, 86, 0.8)',
+                                    'rgba(75, 192, 192, 0.8)',
+                                    'rgba(153, 102, 255, 0.8)'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        font: {
+                                            size: 12
+                                        },
+                                        color: 'white'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: '{{ survey_questions[topic][loop.index0] }}',
+                                    font: {
+                                        size: 14
+                                    },
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    });
+                {% endfor %}
+            </script>
+        {% endfor %}
+        
+        <div class="button-container">
+            <form action="{{ url_for('topic_selection') }}" method="GET">
+                <button type="submit" class="btn fade-in">Return to Home</button>
+            </form>
+            <form action="{{ url_for('thank_you') }}" method="GET">
+                <button type="submit" class="btn fade-in">Thank You</button>
+            </form>
+            <form action="{{ url_for('logout') }}" method="GET">
+                <button type="submit" class="btn fade-in">Logout</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

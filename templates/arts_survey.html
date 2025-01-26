@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Survey - Survey System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">Art Survey</h1>
+        <div class="progress-bar">
+            <div class="progress" id="surveyProgress"></div>
+        </div>
+        <form action="{{ url_for('submit_survey') }}" method="post" onsubmit="return validateForm('artForm')" id="artForm" class="fade-in">
+            <input type="hidden" name="topic" value="art">
+            
+            <div class="survey-question fade-in">
+                <p>1. How often do you engage in artistic activities?</p>
+                <label><input type="radio" name="q1" value="daily" required> Daily</label>
+                <label><input type="radio" name="q1" value="weekly"> Weekly</label>
+                <label><input type="radio" name="q1" value="monthly"> Monthly</label>
+                <label><input type="radio" name="q1" value="rarely"> Rarely</label>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>2. What's your favorite art form?</p>
+                <input type="text" name="q2" required>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>3. Do you prefer creating art or appreciating others' work?</p>
+                <label><input type="radio" name="q3" value="creating" required> Creating</label>
+                <label><input type="radio" name="q3" value="appreciating"> Appreciating</label>
+                <label><input type="radio" name="q3" value="both"> Both equally</label>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>4. How often do you visit art galleries or museums?</p>
+                <label><input type="radio" name="q4" value="weekly" required> Weekly</label>
+                <label><input type="radio" name="q4" value="monthly"> Monthly</label>
+                <label><input type="radio" name="q4" value="yearly"> Yearly</label>
+                <label><input type="radio" name="q4" value="rarely"> Rarely</label>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>5. Have you ever sold a piece of art you created?</p>
+                <label><input type="radio" name="q5" value="yes" required> Yes</label>
+                <label><input type="radio" name="q5" value="no"> No</label>
+            </div>
+            
+            <button type="submit" class="fade-in">Submit Survey</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Update progress bar as user answers questions
+        const questions = document.querySelectorAll('.survey-question');
+        const progressBar = document.getElementById('surveyProgress');
+        let answeredQuestions = 0;
+
+        questions.forEach(question => {
+            const inputs = question.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    answeredQuestions++;
+                    updateProgress();
+                });
+            });
+        });
+
+        function updateProgress() {
+            const progress = (answeredQuestions / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Add fade-in effect to questions as user scrolls
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        questions.forEach(question => {
+            observer.observe(question);
+        });
+    </script>
+</body>
+</html>

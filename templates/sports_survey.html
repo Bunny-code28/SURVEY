@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Survey - Survey System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="fade-in">Sports Survey</h1>
+        <div class="progress-bar">
+            <div class="progress" id="surveyProgress"></div>
+        </div>
+        <form action="{{ url_for('submit_survey') }}" method="post" onsubmit="return validateForm('sportsForm')" id="sportsForm" class="fade-in">
+            <input type="hidden" name="topic" value="sports">
+            
+            <div class="survey-question fade-in">
+                <p>1. How often do you engage in sports activities?</p>
+                <label><input type="radio" name="q1" value="daily" required> Daily</label>
+                <label><input type="radio" name="q1" value="weekly"> Weekly</label>
+                <label><input type="radio" name="q1" value="monthly"> Monthly</label>
+                <label><input type="radio" name="q1" value="rarely"> Rarely</label>
+            </div>
+
+            <div class="survey-question fade-in">
+                <p>2. What's your favorite sport?</p>
+                <input type="text" name="q2" required>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>3. Cricket or Football</p>
+                <label><input type="radio" name="q3" value="Cricket" required> Cricket</label>
+                <label><input type="radio" name="q3" value="Football">Football</label>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>4. Is sports an essential part of life</p>
+                <label><input type="radio" name="q4" value="Yes" required>Yes</label>
+                <label><input type="radio" name="q4" value="No"> No </label>
+                <label><input type="radio" name="q4" value="Maybe">Maybe</label>
+                <label><input type="radio" name="q4" value="I don't know">I don't know</label>
+            </div>
+            
+            <div class="survey-question fade-in">
+                <p>5. Have you ever been injured in any sport ?</p>
+                <label><input type="radio" name="q5" value="yes" required> Yes</label>
+                <label><input type="radio" name="q5" value="no"> No</label>
+            </div>
+            
+            <!-- ... other questions ... -->
+            
+            <button type="submit" class="fade-in">Submit Survey</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Update progress bar as user answers questions
+        const questions = document.querySelectorAll('.survey-question');
+        const progressBar = document.getElementById('surveyProgress');
+        let answeredQuestions = 0;
+
+        questions.forEach(question => {
+            const inputs = question.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    answeredQuestions++;
+                    updateProgress();
+                });
+            });
+        });
+
+        function updateProgress() {
+            const progress = (answeredQuestions / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Add fade-in effect to questions as user scrolls
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        questions.forEach(question => {
+            observer.observe(question);
+        });
+    </script>
+</body>
+</html>

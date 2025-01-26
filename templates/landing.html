@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey System - Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="landing-container fade-in">
+        <div class="landing-content">
+            <div class="landing-header">
+                <h1>Survey System</h1>
+                <p class="subtitle">Collect, Analyze, and Visualize Survey Data</p>
+            </div>
+
+            <div class="landing-grid">
+                <div class="landing-image">
+                    <img src="{{ url_for('static', filename='images/survey-hero.png') }}" alt="Survey Analytics" class="hero-image">
+                </div>
+
+                <div class="features-section">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Secure Platform</h3>
+                        <p>End-to-end encryption and secure data storage</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-chart-pie feature-icon"></i>
+                        <h3>Real-time Analytics</h3>
+                        <p>Instant visualization of survey responses</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                        <h3>Responsive Design</h3>
+                        <p>Works seamlessly on all devices</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-database feature-icon"></i>
+                        <h3>Multiple Database Support</h3>
+                        <p>SQLite and MongoDB integration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h2>Technology Stack</h2>
+                <div class="tech-icons">
+                    <div class="tech-item">
+                        <i class="fab fa-python"></i>
+                        <span>Python</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-js"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <a href="{{ url_for('login_page') }}" class="cta-button">
+                    <span>Get Started</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>
